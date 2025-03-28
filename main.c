@@ -1,23 +1,55 @@
-/*
- * main.c
- *
- *  Created on: 26 Mar 2025
- *      Author: Senan O'Connor & Benjamin Power
- */
-
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "kanban_board.h"
 
 int main(void)
 {
-	int choice;
+	int choice = 0;
+	char list_name[100];
+	headPtr sPtr = NULL;
 
-	printf("Menu:\n\t1. Display board\n\t2. Load board from a file\n\t3. Edit List\n\t");
-	printf("4. Edit Board\n\t5. Save board to a file\n\t6. Quit\n");
-	fflush(stdout);
+	while (choice != 6)
+	{
+		printf("Menu:\n\t1. Display board\n\t2. Load board from a file\n\t3. Edit List\n\t");
+		printf("4. Edit Board\n\t5. Save board to a file\n\t6. Quit\n");
+		//fflush(stdout);
 
-	printf("Enter your choice (1 - 6)");
-	fflush(stdout);
-	scanf("%d", &choice);
+		printf("Enter your choice (1 - 6)\n");
+		//fflush(stdout);
+		scanf("%d", &choice);
+
+		switch (choice)
+		{
+		case 1:
+			printf("displayBoard()\n");
+			//fflush(stdout);
+			break;
+		case 2:
+			printf("loadBoard()\n");
+			//fflush(stdout);
+			break;
+		case 3:
+			printf("Enter name of list to edit\n");
+			//fflush(stdout);
+			scanf("%s", list_name);
+
+			editList(sPtr, list_name);
+			break;
+		case 4:
+			editBoard(sPtr);
+			break;
+		case 5:
+			printf("saveBoard()\n");
+			//fflush(stdout);
+			break;
+		case 6:
+			break;
+		default:
+			printf("Invalid Input. Please re-enter option\n");
+			//fflush(stdout);
+			break;
+		}
+	}
 }
+
