@@ -1,26 +1,35 @@
-/*
- * Written: 27/03/25
- * Author: Ben Power
- * Description: Contains the structs used for the kanban board
- */
+#ifndef _GUARD__KANBAN //This is needed; keep this
+#define _GUARD__KANBAN
 
+#define MAX_LEN 100
 
-#ifndef _GUARD_KB // Protect against repeat/recursive inclusions
-#define _GUARD_KB
-
-// An item within a board
-typedef struct Item
+typedef struct item
 {
-	char Name[80];
-	struct Item *Next_Item;
-} Item;
+	char element[MAX_LEN];
+	struct item *next_item;
+} item;
 
-// A board, to be filled with items
-typedef struct Board
+typedef struct board
 {
-	char Name[80];
-	struct Board *Next_Board;
-	Item *First_Item;
-} Board;
+	char element[MAX_LEN];
+	struct item *next_item;
+	struct board *next_head;
+} board;
+
+typedef board *headPtr;
+typedef item *itemPtr;
+
+void printList(headPtr *sPtr);
+int isEmpty(headPtr *startptr);
+
+void editList(headPtr *sPtr, char list_head[MAX_LEN]);
+void editBoard(headPtr *sPtr);
+
+void editItemName(itemPtr *cPtr);
+void addItem(itemPtr *cPtr, char value[MAX_LEN]);
+void deleteItem(itemPtr *pPtr, itemPtr *cPtr);
+void editListName(headPtr *cPtr);
+void addList(headPtr *sPtr, char value[MAX_LEN]);
+void deleteList(headPtr *pPtr, headPtr *cPtr);
 
 #endif
