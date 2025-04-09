@@ -23,8 +23,7 @@ int main(void)
 		switch (choice)
 		{
 		case 1:
-			printf("displayBoard()\n");
-			fflush(stdout);
+			displayBoard(sPtr);
 			break;
 		case 2:
 			ReadFromFile(&sPtr);
