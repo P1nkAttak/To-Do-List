@@ -60,7 +60,7 @@ void printList(headPtr *sPtr)
     return;
 }
 
-
+// Function for editing a given list's elements
 void editList(headPtr *sPtr, char heading[MAX_LEN])
 {
 	headPtr currPtr = *sPtr;
@@ -157,6 +157,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 	}
 }
 
+// Function for editing the name of an item
 void editItemName(itemPtr *cPtr)
 {
 	char rename[MAX_LEN];
@@ -173,12 +174,12 @@ void editItemName(itemPtr *cPtr)
 	printf("%s is now %s\n", old_name, (*cPtr)->element);
 }
 
-
-void addItem(itemPtr *cPtr, char value[MAX_LEN])
+// Function to add items to the list
+void addItem(headPtr *cPtr, char value[MAX_LEN])
 {
 	itemPtr newPtr; /* create node */
 
-	newPtr = (board *) malloc(sizeof(board));
+	newPtr = (item *) malloc(sizeof(item));
 
 	if (newPtr != NULL)
 	{
@@ -204,6 +205,7 @@ void addItem(itemPtr *cPtr, char value[MAX_LEN])
 	 return;
 }
 
+// Function to remove items from the list
 void deleteItem(itemPtr *pPtr, itemPtr *cPtr, headPtr *lPtr)
 {
 	char deleted[MAX_LEN];
@@ -245,7 +247,7 @@ void deleteItem(itemPtr *pPtr, itemPtr *cPtr, headPtr *lPtr)
 }
 
 
-
+// Function to edit the linked list of lists
 void editBoard(headPtr *sPtr)
 {
 	int option = 0;
@@ -365,6 +367,7 @@ void editBoard(headPtr *sPtr)
 	return;
 }
 
+// Function to edit the name of a list
 void editListName(headPtr *cPtr)
 {
 	char rename[MAX_LEN];
@@ -381,7 +384,7 @@ void editListName(headPtr *cPtr)
 	printf("%s is now %s\n", old_name, (*cPtr)->element);
 }
 
-
+// Function to create a new list
 void addList(headPtr *sPtr, char value[100])
 {
 	headPtr newPtr; /* create node */
@@ -417,6 +420,7 @@ void addList(headPtr *sPtr, char value[100])
     return;
 }
 
+// Function to remove a list
 void deleteList(headPtr *pPtr, headPtr *cPtr)
 {
 	if (*pPtr == NULL)
