@@ -8,12 +8,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "kanban_board.h"
+#include "Kanban_Board.h"
 
 void printList(headPtr *sPtr)
 {
 	headPtr cPtr = *sPtr;
 	itemPtr icPtr;
+
+	if (cPtr == NULL)
+	{
+		printf("List is empty\n\n");
+		fflush(stdout);
+		return;
+	}
 
 	while (cPtr != NULL)
 	{
@@ -36,7 +43,7 @@ void printList(headPtr *sPtr)
 	    	}
 	    }
 
-	    printf("NULL\n\n" );
+	    printf("NULL\n");
 	    fflush(stdout);
 
 	    if (cPtr->next_head == NULL)
