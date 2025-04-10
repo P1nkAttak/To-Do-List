@@ -10,6 +10,26 @@
 #include <string.h>
 #include "Kanban_Board.h"
 
+void getstring(char value[MAX_LEN])
+{
+	strcpy(value, "\0");
+	fgets(value, MAX_LEN, stdin);
+	fflush(stdin);
+	value[(strlen(value) - 1)] = '\0';
+
+	while (strlen(value) < 1)
+	{
+		printf("Invalid Entry. Please Re-enter input\n");
+		fflush(stdout);
+		fgets(value, MAX_LEN - 1, stdin);
+		value[strlen(value) - 1] = '\0';
+	}
+
+	//printf("\n%s %d\n", value, strlen(value));
+	//fflush(stdout);
+}
+
+
 void printList(headPtr *sPtr)
 {
 	headPtr cPtr = *sPtr;
@@ -96,7 +116,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 
 				printf("Enter name of item to edit\n");
 				fflush(stdout);
-				scanf("%s", item);
+				getstring(item);
 
 				while ((icurrPtr != NULL) && (strcmp(item, icurrPtr->element) != 0))
 				{
@@ -116,7 +136,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 			case 2:
 				printf("Enter name of item to add\n");
 				fflush(stdout);
-				scanf("%s", item);
+				getstring(item);
 
 				addItem(&currPtr, item);
 				break;
@@ -127,7 +147,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 
 				printf("Enter name of item to delete\n");
 				fflush(stdout);
-				scanf("%s", item);
+				getstring(item);
 
 				while ((icurrPtr != NULL) && (strcmp(item, icurrPtr->element) != 0))
 				{
@@ -167,7 +187,7 @@ void editItemName(itemPtr *cPtr)
 
 	printf("Enter new name of list\n");
 	fflush(stdout);
-	scanf("%s", rename);
+	getstring(rename);
 
 	strcpy((*cPtr)->element, rename);
 
@@ -274,7 +294,7 @@ void editBoard(headPtr *sPtr)
 
 			printf("Enter name of list to edit\n");
 			fflush(stdout);
-			scanf("%s", list_name);
+			getstring(list_name);
 			
 			if (*sPtr == NULL)
 			{
@@ -307,7 +327,7 @@ void editBoard(headPtr *sPtr)
 		case 2:
 			printf("Enter name of list to add\n");
 			fflush(stdout);
-			scanf("%s", list_name);
+			getstring(list_name);
 
 			addList(sPtr, list_name);
 			break;
@@ -321,7 +341,7 @@ void editBoard(headPtr *sPtr)
 			{
 				printf("Enter name of list to delete\n");
 				fflush(stdout);
-				scanf("%s", list_name);
+				getstring(list_name);
 
 				currPtr = *sPtr;
 				prevPtr = NULL;
@@ -367,7 +387,7 @@ void editListName(headPtr *cPtr)
 
 	printf("Enter new name of list\n");
 	fflush(stdout);
-	scanf("%s", rename);
+	getstring(rename);
 
 	strcpy((*cPtr)->element, rename);
 
