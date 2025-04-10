@@ -274,13 +274,9 @@ void editBoard(headPtr *sPtr)
 
 			printf("Enter name of list to edit\n");
 			fflush(stdout);
-			//getstring(list_name);
 			scanf("%s", list_name);
-			/*
-			printf("\n%s %d\n", list_name, strlen(list_name));
-			fflush(stdout);
-			*/
-			if (*sPtr == NULL || strlen((*sPtr)->element) == 0)
+			
+			if (*sPtr == NULL)
 			{
 				printf("List is empty\n");
 			}
@@ -292,8 +288,6 @@ void editBoard(headPtr *sPtr)
 				// Find location of List to be edited
 				while (currPtr != NULL && strcmp(currPtr->element, list_name) != 0)
 				{
-					printf("\n%s %d\n", currPtr->element, strlen(currPtr->element));// currPtr->element, strlen(currPtr->element));
-					fflush(stdout);
 					prevPtr = currPtr;
 					currPtr = currPtr->next_head;
 				}
@@ -316,28 +310,25 @@ void editBoard(headPtr *sPtr)
 			scanf("%s", list_name);
 
 			addList(sPtr, list_name);
-
 			break;
 
 		case 3:
-			printf("Enter name of list to delete\n");
-			fflush(stdout);
-			scanf("%s", list_name);
-
 			if (*sPtr == NULL)
 			{
-				printf("List is empty");
+				printf("List is empty\n");
 			}
 			else
 			{
+				printf("Enter name of list to delete\n");
+				fflush(stdout);
+				scanf("%s", list_name);
+
 				currPtr = *sPtr;
 				prevPtr = NULL;
 
 				// Find location of List to be deleted
 				while (currPtr->next_head != NULL && strcmp(currPtr->element, list_name) != 0)
 				{
-					printf("\n%s %d\n", currPtr->element, strlen(currPtr->element));
-					fflush(stdout);
 					prevPtr = currPtr;
 					currPtr = currPtr->next_head;
 				}
@@ -349,18 +340,17 @@ void editBoard(headPtr *sPtr)
 				}
 				else
 				{
-					deleteList(&prevPtr, &currPtr);
+					deleteList(&prevPtr, &currPtr, sPtr);
 				}
 			}
-
 			break;
+
 		case 4:
 			break;
 
 		default:
 			printf("Invalid Entry\n");
 			fflush(stdout);
-
 			break;
 		}
 	}
@@ -385,10 +375,9 @@ void editListName(headPtr *cPtr)
 }
 
 // Function to create a new list
-void addList(headPtr *sPtr, char value[100])
+void addList(headPtr *sPtr, char value[MAX_LEN])
 {
 	headPtr newPtr; /* create node */
-	headPtr checkPtr;
 
     newPtr = (board *) malloc(sizeof(board));
 
@@ -397,18 +386,9 @@ void addList(headPtr *sPtr, char value[100])
         strcpy(newPtr->element, value); /* place value in node */
 
         /* insert new node at start*/
+		newPtr->next_item = NULL;
         newPtr->next_head = *sPtr;
        	*sPtr = newPtr;
-
-       	printf("Start is %s of %d\n", (*sPtr)->element, strlen((*sPtr)->element));
-       	fflush(stdout);
-
-       	if ((*sPtr)->next_head != NULL)
-       	{
-       		checkPtr = (*sPtr)->next_head;
-       		printf("Next is %s\n", checkPtr->element);
-       		fflush(stdout);
-       	}
     }
     else
     {
@@ -423,21 +403,41 @@ void addList(headPtr *sPtr, char value[100])
 // Function to remove a list
 void deleteList(headPtr *pPtr, headPtr *cPtr)
 {
-	if (*pPtr == NULL)
+	char deleted[MAX_LEN];
+
+	// If the list is the only element of the linked list
+	if ((*pPtr == NULL) && ((*cPtr)->next_head == NULL))
 	{
-		strcpy((*cPtr)->element, "\0");
+		strcpy(deleted, (*cPtr)->element);
+		*cPtr = NULL;
 	}
 	else
 	{
+		// If the list is at the end
 		if ((*cPtr)->next_head == NULL)
 		{
 			(*pPtr)->next_head = NULL;
-			free(cPtr);
+			strcpy(deleted, (*cPtr)->element);
+			free((*cPtr));
+			*cPtr = NULL;
 		}
+		// If the list is at the start
+		else if (*pPtr == NULL)
+		{
+			*sPtr = (*cPtr)->next_head;
+			strcpy(deleted, (*cPtr)->element);
+			free((*cPtr));
+			*cPtr = NULL;
+		}
+		// If the list is anywhere else
 		else
 		{
+			strcpy(deleted, (*cPtr)->element);
 			(*pPtr)->next_head = (*cPtr)->next_head;
 			free(cPtr);
+			*cPtr = NULL;
 		}
 	}
+	
+	return;
 }
