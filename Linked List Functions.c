@@ -61,14 +61,12 @@ void printList(headPtr *sPtr)
 }
 
 
-void editList(headPtr *sPtr, char heading[100])
+void editList(headPtr *sPtr, char heading[MAX_LEN])
 {
 	headPtr currPtr = *sPtr;
-	itemPtr icurrPtr;
+	itemPtr icurrPtr, iprevPtr = NULL;
 	int option = 0;
 	char item[MAX_LEN];
-
-	strcpy(item, "\0");
 
 	// Find location of List to be edited
 	while ((currPtr != NULL) && (strcmp(heading, currPtr->element) != 0))
@@ -85,6 +83,8 @@ void editList(headPtr *sPtr, char heading[100])
 	{
 		while (option != 4)
 		{
+			strcpy(item, "\0");
+
 			printf("Options\n1. Edit an item\n2. Add a new item\n3. Delete an item\n4. Return to main menu\n");
 			fflush(stdout);
 			scanf("%d", &option);
@@ -112,22 +112,43 @@ void editList(headPtr *sPtr, char heading[100])
 					editItemName(&icurrPtr);
 				}
 				break;
-			case 2:
-				icurrPtr = currPtr->next_item;
 
+			case 2:
 				printf("Enter name of item to add\n");
 				fflush(stdout);
 				scanf("%s", item);
 
-				addItem(&icurrPtr, item);
-
+				addItem(&currPtr, item);
 				break;
+
 			case 3:
-				//deleteItem();
+				icurrPtr = currPtr->next_item;
+				iprevPtr = NULL;
+
+				printf("Enter name of item to delete\n");
+				fflush(stdout);
+				scanf("%s", item);
+
+				while ((icurrPtr != NULL) && (strcmp(item, icurrPtr->element) != 0))
+				{
+					iprevPtr = icurrPtr;
+					icurrPtr = icurrPtr->next_item;
+				}
+
+				if (icurrPtr == NULL)
+				{
+					printf("Item not found\n");
+					fflush(stdout);
+				}
+				else
+				{
+					deleteItem(&iprevPtr, &icurrPtr, &currPtr);
+				}
 				break;
 
 			case 4:
 				break;
+
 			default:
 				printf("Invalid Entry\n");
 				break;
@@ -156,7 +177,6 @@ void editItemName(itemPtr *cPtr)
 void addItem(itemPtr *cPtr, char value[MAX_LEN])
 {
 	itemPtr newPtr; /* create node */
-	itemPtr checkPtr;
 
 	newPtr = (board *) malloc(sizeof(board));
 
@@ -164,19 +184,16 @@ void addItem(itemPtr *cPtr, char value[MAX_LEN])
 	{
 		strcpy(newPtr->element, value); /* place value in node */
 
-	    /* insert new node at start*/
-	    newPtr->next_item = (*cPtr)->next_item;
-	    (*cPtr)->next_item = newPtr;
-
-	    printf("Start is %s of %d\n", (*cPtr)->element, strlen((*cPtr)->element));
-	    fflush(stdout);
-
-	    if ((*cPtr)->next_item != NULL)
-	    {
-	    	checkPtr = (*cPtr)->next_item;
-	    	printf("Next is %s\n", checkPtr->element);
-	    	fflush(stdout);
-	    }
+		if ((*cPtr)->next_item == NULL)
+		{
+			newPtr->next_item = NULL;
+			(*cPtr)->next_item = newPtr;
+		}
+		else
+		{
+			newPtr->next_item = (*cPtr)->next_item;
+			(*cPtr)->next_item = newPtr;
+		}
 	}
 	else
 	{
@@ -186,6 +203,47 @@ void addItem(itemPtr *cPtr, char value[MAX_LEN])
 
 	 return;
 }
+
+void deleteItem(itemPtr *pPtr, itemPtr *cPtr, headPtr *lPtr)
+{
+	char deleted[MAX_LEN];
+
+	// If item is only element of the list
+	if ((*pPtr == NULL) && ((*cPtr)->next_item == NULL))
+	{
+		strcpy(deleted, (*cPtr)->element);
+		free((*cPtr));
+		*cPtr = NULL;
+	}
+	else
+	{
+		// If the item is at the end of the list
+		if ((*cPtr)->next_item == NULL)
+		{
+			(*pPtr)->next_item = NULL;
+			strcpy(deleted, (*cPtr)->element);
+			free((*cPtr));
+			*cPtr = NULL;
+		}
+		else if (*pPtr == NULL)
+		{
+			(*lPtr)->next_item = (*cPtr)->next_item;
+			strcpy(deleted, (*cPtr)->element);
+			free((*cPtr));
+			*cPtr = NULL;
+		}
+		// If the item is anywhere else
+		else
+		{
+			(*pPtr)->next_item = (*cPtr)->next_item;
+			strcpy(deleted, (*cPtr)->element);
+			free((*cPtr));
+			*cPtr = NULL;
+		}
+	}
+	printf("%s deleted\n", deleted);
+}
+
 
 
 void editBoard(headPtr *sPtr)
