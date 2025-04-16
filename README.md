@@ -2,9 +2,10 @@
 Senan O'Connor & Benjamin Power
 
 ## Design Choices
-1. Loading a Board from a File
+# Loading a Board from a File
 
-2. Editing Lists & Items:
+# Editing Lists & Items
+
 To edit the board, The user enters 4 as the option, bringing up the menu for changing the lists.
 When they want to edit the name of a list, the user enters the name, and the program searches through the linked list. When found, the user simply overwrites the old name with the new one.
 When adding a new list, the user enters the new list name & the program creates a new node to add it on to the start of the linked list.
