@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "Kanban_Board.h"
+#include "output.h"
 #include "file_functions.h"
 
 int main(void)
@@ -39,8 +40,7 @@ int main(void)
 			editBoard(sPtr);
 			break;
 		case 5:
-			printf("saveBoard()\n");
-			fflush(stdout);
+			SaveToFile(sPtr);
 			break;
 		case 6:
 			break;

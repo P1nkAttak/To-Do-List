@@ -33,12 +33,12 @@ void displayBoard(headPtr first_board)
 		}
 		else
 		{
-			itemPtr this_item = first_board->next_item;
+			itemPtr this_item = this_board->next_item;
 
 			// Loop through the items
 			do
 			{
-				printf("  -%s\n", this_item->element);
+				printf("  - %s\n", this_item->element);
 
 				// Prepare the next item
 				this_item = this_item->next_item;
