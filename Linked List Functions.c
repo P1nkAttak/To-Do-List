@@ -10,13 +10,15 @@
 #include <string.h>
 #include "Kanban_Board.h"
 
+// Obtain and cleanse user string input
 void getstring(char value[MAX_LEN])
 {
+	// Scan string
 	strcpy(value, "\0");
-	fgets(value, MAX_LEN, stdin);
-	fflush(stdin);
+	fgets(value, MAX_LEN - 1, stdin);
 	value[(strlen(value) - 1)] = '\0';
 
+	// Ensure user input is valid
 	while (strlen(value) < 1)
 	{
 		printf("Invalid Entry. Please Re-enter input\n");
@@ -29,12 +31,13 @@ void getstring(char value[MAX_LEN])
 	//fflush(stdout);
 }
 
-
+// Display Board
 void printList(headPtr *sPtr)
 {
 	headPtr cPtr = *sPtr;
 	itemPtr icPtr;
 
+	// Check if list is empty
 	if (cPtr == NULL)
 	{
 		printf("List is empty\n\n");
@@ -44,9 +47,11 @@ void printList(headPtr *sPtr)
 
 	while (cPtr != NULL)
 	{
-		printf("%s --> ", cPtr->element);
+		// Print heading of the List
+		printf("\n%s:\n", cPtr->element);
 	    fflush(stdout);
 
+		// Check Items of list
 	    if (cPtr->next_item == NULL)
 	    {
 	    	printf("No Items --> ");
@@ -54,25 +59,25 @@ void printList(headPtr *sPtr)
 	    }
 	    else
 	    {
+			// Print items
 	    	icPtr = cPtr->next_item;
 	    	while (icPtr != NULL)
 	    	{
-	    	  	printf("%s --> ", icPtr->element);
+	    	  	printf("\t%s\n", icPtr->element);
 	    	  	fflush(stdout);
 	    	  	icPtr = icPtr->next_item;
 	    	}
 	    }
 
-	    printf("NULL\n");
-	    fflush(stdout);
-
-	    if (cPtr->next_head == NULL)
+		// Check if the board is finished
+	  	if (cPtr->next_head == NULL)
 	    {
-	    	printf("\nEND OF LIST\n\n");
+	    	printf("\nEND OF BOARD\n\n");
 	    	cPtr = NULL;
 	    }
 	    else
 	    {
+			// Move to next list
 	    	cPtr = cPtr->next_head;
 	    }
 	}
@@ -103,6 +108,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 	{
 		while (option != 4)
 		{
+			// Re-initialise item
 			strcpy(item, "\0");
 
 			printf("Options\n1. Edit an item\n2. Add a new item\n3. Delete an item\n4. Return to main menu\n");
@@ -112,16 +118,20 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 			switch (option)
 			{
 			case 1:
+				// Edit an item name
 				icurrPtr = currPtr->next_item;
 
 				printf("Enter name of item to edit\n");
 				fflush(stdout);
 				getstring(item);
 
+				// Find the node
 				while ((icurrPtr != NULL) && (strcmp(item, icurrPtr->element) != 0))
 				{
 					icurrPtr = icurrPtr->next_item;
 				}
+
+				// Edit the name if found
 				if (icurrPtr == NULL)
 				{
 					printf("Item not found\n");
@@ -134,6 +144,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 				break;
 
 			case 2:
+				// Add item at the start of the list
 				printf("Enter name of item to add\n");
 				fflush(stdout);
 				getstring(item);
@@ -142,6 +153,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 				break;
 
 			case 3:
+
 				icurrPtr = currPtr->next_item;
 				iprevPtr = NULL;
 
@@ -149,12 +161,14 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 				fflush(stdout);
 				getstring(item);
 
+				// Find node
 				while ((icurrPtr != NULL) && (strcmp(item, icurrPtr->element) != 0))
 				{
 					iprevPtr = icurrPtr;
 					icurrPtr = icurrPtr->next_item;
 				}
 
+				// Delete item
 				if (icurrPtr == NULL)
 				{
 					printf("Item not found\n");
@@ -167,6 +181,7 @@ void editList(headPtr *sPtr, char heading[MAX_LEN])
 				break;
 
 			case 4:
+				// Return to main menu
 				break;
 
 			default:
@@ -183,12 +198,14 @@ void editItemName(itemPtr *cPtr)
 	char rename[MAX_LEN];
 	char old_name[MAX_LEN];
 
+	// Save old name
 	strcpy(old_name, (*cPtr)->element);
 
 	printf("Enter new name of list\n");
 	fflush(stdout);
 	getstring(rename);
 
+	// Replace name
 	strcpy((*cPtr)->element, rename);
 
 	printf("%s is now %s\n", old_name, (*cPtr)->element);
@@ -197,14 +214,19 @@ void editItemName(itemPtr *cPtr)
 // Function to add items to the list
 void addItem(headPtr *cPtr, char value[MAX_LEN])
 {
-	itemPtr newPtr; /* create node */
+	// Create new node
+	itemPtr newPtr;
 
+	// Allocate memory for new item
 	newPtr = (item *) malloc(sizeof(item));
 
+	// Check if memory is available
 	if (newPtr != NULL)
 	{
-		strcpy(newPtr->element, value); /* place value in node */
+		// Place value in node
+		strcpy(newPtr->element, value);
 
+		// If the item is the first item added
 		if ((*cPtr)->next_item == NULL)
 		{
 			newPtr->next_item = NULL;
