@@ -234,6 +234,7 @@ void addItem(headPtr *cPtr, char value[MAX_LEN])
 		}
 		else
 		{
+			// Link node
 			newPtr->next_item = (*cPtr)->next_item;
 			(*cPtr)->next_item = newPtr;
 		}
@@ -243,7 +244,6 @@ void addItem(headPtr *cPtr, char value[MAX_LEN])
 		printf( "%s not inserted. No memory available.\n", value);
 	    fflush(stdout);
 	}
-
 	 return;
 }
 
@@ -256,6 +256,7 @@ void deleteItem(itemPtr *pPtr, itemPtr *cPtr, headPtr *lPtr)
 	if ((*pPtr == NULL) && ((*cPtr)->next_item == NULL))
 	{
 		strcpy(deleted, (*cPtr)->element);
+		// Free memory and clean dangling pointer
 		free((*cPtr));
 		*cPtr = NULL;
 	}
@@ -264,13 +265,16 @@ void deleteItem(itemPtr *pPtr, itemPtr *cPtr, headPtr *lPtr)
 		// If the item is at the end of the list
 		if ((*cPtr)->next_item == NULL)
 		{
+			// Cut the list of at previous item
 			(*pPtr)->next_item = NULL;
 			strcpy(deleted, (*cPtr)->element);
 			free((*cPtr));
 			*cPtr = NULL;
 		}
+		// If the item is at the start of the list
 		else if (*pPtr == NULL)
 		{
+			// Second item moved to first
 			(*lPtr)->next_item = (*cPtr)->next_item;
 			strcpy(deleted, (*cPtr)->element);
 			free((*cPtr));
@@ -279,6 +283,7 @@ void deleteItem(itemPtr *pPtr, itemPtr *cPtr, headPtr *lPtr)
 		// If the item is anywhere else
 		else
 		{
+			// Link previous item with item after the current one
 			(*pPtr)->next_item = (*cPtr)->next_item;
 			strcpy(deleted, (*cPtr)->element);
 			free((*cPtr));
