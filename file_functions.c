@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "Kanban_Board.h"
+#include "kanban_board.h"
 #include "file_functions.h"
 
 /*

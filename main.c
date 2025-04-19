@@ -44,7 +44,6 @@ int main(void)
 			ReadFromFile(&sPtr);
 			break;
 		
-
 		// Edit the items of a list
 		case 3:
 			// Ensure that there is a list to be edited
