@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "Kanban_Board.h"
+#include "kanban_board.h"
 #include "output.h"
 
 void displayBoard(headPtr first_board)

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "Kanban_Board.h"
+#include "kanban_board.h"
 #include "output.h"
 #include "file_functions.h"
 
