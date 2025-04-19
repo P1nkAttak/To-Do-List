@@ -1,3 +1,4 @@
+// Include Libraries
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,48 +8,87 @@
 
 int main(void)
 {
+	// Initialise Variables 
 	int choice = 0;
 	char list_name[MAX_LEN];
 	headPtr sPtr = NULL;
 
 	while (choice != 6)
 	{
+		// Re-initialise list_name
+		strcpy(list_name, "\0");
+
+		// Print Menu
 		printf("Menu:\n\t1. Display board\n\t2. Load board from a file\n\t3. Edit List\n\t");
 		printf("4. Edit Board\n\t5. Save board to a file\n\t6. Quit\n");
 		fflush(stdout);
 
+		// Prompt user
 		printf("Enter your choice (1 - 6)\n");
 		fflush(stdout);
 		scanf("%d", &choice);
 
+		// Branch to other functions
 		switch (choice)
 		{
+		// Display the board
 		case 1:
-			displayBoard(sPtr);
+			printf("Displaying Board:\n");
+			fflush(stdout);
+			printList(&sPtr);
 			break;
+
+
+		// Read from a file
 		case 2:
 			ReadFromFile(&sPtr);
 			break;
+		
+
+		// Edit the items of a list
 		case 3:
+			// Ensure that there is a list to be edited
+			if (sPtr == NULL)
+			{
+				printf("List is empty\n");
+				fflush(stdout);
+				break;
+			}
+
 			printf("Enter name of list to edit\n");
 			fflush(stdout);
-			scanf("%s", list_name);
+			getstring(list_name);
 
-			editList(sPtr, list_name);
+			editList(&sPtr, list_name);
 			break;
+
+
+		// Edit the lists of the board
 		case 4:
-			editBoard(sPtr);
+			editBoard(&sPtr);
 			break;
+
+
+		// Save Board to file
 		case 5:
 			SaveToFile(sPtr);
 			break;
+
+
+		// Quit Program
 		case 6:
+			printf("\nTerminating Program\n");
+			fflush(stdout);
 			break;
+
+	
+		// Error checking
 		default:
 			printf("Invalid Input. Please re-enter option\n");
 			fflush(stdout);
 			break;
 		}
 	}
+	return 0;
 }
 

@@ -20,7 +20,6 @@ typedef board *headPtr;
 typedef item *itemPtr;
 
 void printList(headPtr *sPtr);
-int isEmpty(headPtr *startptr);
 
 void editList(headPtr *sPtr, char list_head[MAX_LEN]);
 void editBoard(headPtr *sPtr);
