@@ -24,12 +24,20 @@
  */
 static void FreeAllItems(itemPtr this_item)
 {
+	// Check this item exists
+	if (this_item == NULL)
+	{
+		return;
+	}
+
 	// Call on the next item, if it exists
 	if (this_item->next_item != NULL)
 	{
 		FreeAllItems(this_item->next_item);
 	}
 
+	printf("%s\n", this_item->element);
+	fflush(stdout);
 	free(this_item);
 }
 
@@ -46,6 +54,12 @@ static void FreeAllItems(itemPtr this_item)
  */
 static void FreeAllBoards(headPtr this_board)
 {
+	// Check this board exists
+	if (this_board == NULL)
+	{
+		return;
+	}
+
 	// Call on the next board, if it exists
 	if (this_board->next_head != NULL)
 	{
@@ -281,6 +295,8 @@ void SaveToFile(headPtr first_board)
 
 	// Close the file
 	fclose(opened_file);
+	printf("Saved successfully!\n");
+	fflush(stdout);
 }
 
 /*
@@ -294,7 +310,7 @@ void ReadFromFile(headPtr *board_ptr)
 	getchar(); // Clears input stream
 
 	// Read a file name
-	printf("\nEnter a file name: ");
+	printf("Enter a file name: ");
 	fflush(stdout);
 	char file_name[20];
 	fgets(file_name, 20, stdin);
@@ -356,4 +372,6 @@ void ReadFromFile(headPtr *board_ptr)
 	// Close the file and update the linked list pointer
 	fclose(opened_file);
 	*board_ptr = first_board_ptr;
+	printf("Loaded successfully!\n");
+	fflush(stdout);
 }

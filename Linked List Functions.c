@@ -13,6 +13,9 @@
 // Obtain and cleanse user string input
 void getstring(char value[MAX_LEN])
 {
+	// Clear input buffer
+	fgetc(stdin);
+
 	// Scan string
 	strcpy(value, "\0");
 	fgets(value, MAX_LEN - 1, stdin);

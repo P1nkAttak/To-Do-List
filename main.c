@@ -27,15 +27,16 @@ int main(void)
 		printf("Enter your choice (1 - 6)\n");
 		fflush(stdout);
 		scanf("%d", &choice);
+		printf("\n");
+		fflush(stdout);
 
 		// Branch to other functions
 		switch (choice)
 		{
 		// Display the board
 		case 1:
-			printf("Displaying Board:\n");
 			fflush(stdout);
-			printList(&sPtr);
+			displayBoard(sPtr);
 			break;
 
 
@@ -87,6 +88,9 @@ int main(void)
 			fflush(stdout);
 			break;
 		}
+
+		printf("\n");
+		fflush(stdout);
 	}
 	return 0;
 }
