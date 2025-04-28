@@ -13,6 +13,52 @@
 
 /*
  * (INTERNAL)
+ * This function recursively frees every item of a list
+ * It calls itself on every item before freeing then
+ *
+ * ARGS:
+ * item_ptr: The itemPtr to free
+ *
+ * RETURNS:
+ * None
+ */
+static void FreeAllItems(itemPtr this_item)
+{
+	// Call on the next item, if it exists
+	if (this_item->next_item != NULL)
+	{
+		FreeAllItems(this_item->next_item);
+	}
+
+	free(this_item);
+}
+
+/*
+ * (INTERNAL)
+ * This function recursively frees every board starting from the root pointer
+ * The root pointer should be manually set to NULL or some other value following calling this function
+ *
+ * ARGS:
+ * board_ptr: The boardPtr to free
+ *
+ * RETURNS:
+ * None
+ */
+static void FreeAllBoards(headPtr this_board)
+{
+	// Call on the next board, if it exists
+	if (this_board->next_head != NULL)
+	{
+		FreeAllBoards(this_board->next_head);
+	}
+
+	// Free the board's items, then the board itself
+	FreeAllItems(this_board->next_item);
+	free(this_board);
+}
+
+/*
+ * (INTERNAL)
  * This function reads a single line from a file and writes it to the given board
  *
  * ARGS:
@@ -274,6 +320,9 @@ void ReadFromFile(headPtr *board_ptr)
 		fflush(stdout);
 		return;
 	}
+
+	// Now that we know a valid file exists, we can safely free the existing pointers
+	FreeAllBoards(*board_ptr);
 
 	// We need to read the data from the file now
 	// Names are separated by a | delimiter

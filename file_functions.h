@@ -10,7 +10,7 @@
 
 #include "kanban_board.h" // Needed to define the types for our linked list
 
-void SaveToFile();
+void SaveToFile(headPtr first_board);
 void ReadFromFile(headPtr *board_ptr);
 
 #endif
