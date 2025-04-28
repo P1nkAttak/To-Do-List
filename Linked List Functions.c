@@ -448,19 +448,20 @@ void addList(headPtr *sPtr, char value[MAX_LEN])
 }
 
 // Function to remove a list
-void deleteList(headPtr *pPtr, headPtr *cPtr)
+void deleteList(headPtr *pPtr, headPtr *cPtr, headPtr *sPtr)
 {
 	char deleted[MAX_LEN];
 
-	// If the list is the only element of the linked list
+	// If the list is the only element of the board
 	if ((*pPtr == NULL) && ((*cPtr)->next_head == NULL))
 	{
 		strcpy(deleted, (*cPtr)->element);
+		free((*cPtr));
 		*cPtr = NULL;
 	}
 	else
 	{
-		// If the list is at the end
+		// If the list is the last list
 		if ((*cPtr)->next_head == NULL)
 		{
 			(*pPtr)->next_head = NULL;
@@ -468,7 +469,7 @@ void deleteList(headPtr *pPtr, headPtr *cPtr)
 			free((*cPtr));
 			*cPtr = NULL;
 		}
-		// If the list is at the start
+		// If the list is the start of the board
 		else if (*pPtr == NULL)
 		{
 			*sPtr = (*cPtr)->next_head;
@@ -476,7 +477,6 @@ void deleteList(headPtr *pPtr, headPtr *cPtr)
 			free((*cPtr));
 			*cPtr = NULL;
 		}
-		// If the list is anywhere else
 		else
 		{
 			strcpy(deleted, (*cPtr)->element);
@@ -485,6 +485,6 @@ void deleteList(headPtr *pPtr, headPtr *cPtr)
 			*cPtr = NULL;
 		}
 	}
-	
-	return;
+
+	printf("%s deleted\n", deleted);
 }
