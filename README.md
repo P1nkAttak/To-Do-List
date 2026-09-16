@@ -1,4 +1,4 @@
-# Software Engineering Project 1 - Assignment 3
+# To-Do List
 Senan O'Connor & Benjamin Power
 
 # Design Choices
@@ -20,10 +20,3 @@ To edit the board or a list, The user enters the respective option, bringing up 
 ## Saving a Board to a File
 Saving the board was simple after creating the loading function. It is basically just the same serialisation as the load function, but in reverse. The name of each board/item is written to the file, with new item pointers being separated by '|' and new board pointers being separated by newlines. 
 
-
-## ASCII Art - Ben Power
-My ASCII art is of a galaxy. I chose this because I find space very fascinating to learn about.
-
-
-# Repository
-https://csgitlab.ucd.ie/sep_3/assignment-3
